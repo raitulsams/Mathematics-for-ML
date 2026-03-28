@@ -122,3 +122,95 @@ If we want to represent a student to our ML model, we do not feed it variables o
 `Student A = [Study Hours: 4, Sleep Hours: 7, Classes Attended: 12]`
 
 Mathematically, this is written simply as `v = [4, 7, 12]`. Vectors allow computers to multiply and process thousands of data points simultaneously using Linear Algebra, which is why ML models can train so quickly.
+
+## 2.2 Scalars and Vectors: The Dimensions of Data
+
+**The Concept:**
+In machine learning and physics, we categorize data based on how much information is needed to fully describe it. We use Scalars for simple amounts and Vectors for amounts that also have a direction or multiple features.
+
+### Scalars: Magnitude Only
+
+A scalar is a single number. It only has "magnitude" (a size or amount). It does not need a direction to make sense.
+
+**Real-Life Example:** \* **Temperature:** If you say "The temperature is 30 degrees Celsius," that is a complete piece of information. You do not say "It is 30 degrees Celsius facing North."
+
+- **Other examples:** Weight (70 kg), Age (25 years), or the price of a house ($300,000).
+
+### Vectors: Magnitude and Direction
+
+A vector has both magnitude (size) AND direction. In ML, you can also think of a vector as a list of distinct but related features that describe a single object.
+
+**Real-Life Example:**
+
+- **Distance vs. Displacement:** If you tell someone "Walk 10 meters," that is a scalar (distance). They could end up anywhere in a circle around you. If you say "Walk 10 meters East," that is a vector (displacement). You have given them a magnitude (10m) and a direction (East) to find the exact point B.
+
+---
+
+### Plotting Vectors and The Origin
+
+Let's say we have a vector: `v = [1, 2]`.
+If we plot this on a 2D plane (x-axis and y-axis), it looks like an arrow pointing to the coordinates where `x = 1` and `y = 2`.
+
+**Why do vectors start from (0,0)?**
+The point (0,0) is called the **Origin**. Vectors start here because we need a universal reference point to give the numbers meaning. Think of it like using a ruler: if you want to measure a 5-inch piece of wood, you have to line up the edge of the wood with the "0" mark on the ruler. If you do not start at zero, the numbers lose their context.
+
+---
+
+### Dimensions: 2D, 3D, and Beyond
+
+The number of values inside the vector tells you how many dimensions it has.
+
+- `v = [1, 2]` has two numbers. It is a 2D vector and can be drawn on a flat piece of paper.
+- `v = [3, 5, 7]` has three numbers (x, y, and z axes). It cannot be described accurately on a flat 2D surface; it requires a 3D space (like a room with length, width, and height).
+- **ML Context:** In Machine Learning, if an image is represented by a vector with 1,000 pixel values, we say that vector exists in a 1,000-dimensional space. We cannot visualize it, but the math works the exact same way as it does in 2D.
+
+---
+
+### Clarification: "Supporting Vectors" and Geometric Spaces
+
+_Note: It is important to clarify the terminology here regarding "supporting vectors" and lines/hyperplanes._
+
+When you plot a single vector like `v = [1, 2]`, the arrow itself is just a line segment. However, if you imagine that vector stretching out infinitely in both directions, it creates a **Line** (1D space) within the 2D graph. This is mathematically called the "span" of the vector.
+
+**Lines, Planes, and Hyperplanes in ML:**
+
+- **In 2D Space:** A boundary that separates data (like separating cats from dogs on a graph) is a straight **Line**.
+- **In 3D Space:** A boundary that separates data becomes a flat sheet of paper, called a **Plane**.
+- **In nD Space (4 or more dimensions):** A boundary that separates data is called a **Hyperplane**.
+
+## 2.3 Row and column vectors and transpose: Organizing the Data
+
+**The Concept:**
+Just knowing the numbers inside a vector is not enough; how we arrange them physically on the page (or in the computer's memory) matters immensely for mathematical operations. Vectors can be written in two distinct ways: horizontally or vertically.
+
+### Row Vectors vs. Column Vectors
+
+- **Row Vector:** The numbers are written horizontally, side-by-side. It has exactly 1 row and multiple columns.
+  - _Notation:_ `v = [1, 2, 3]`
+  - _Real-Life Example:_ Think of a single row in an Excel spreadsheet. If you have a dataset of hospital patients, one row represents one patient's complete profile: `[Age: 45, Heart Rate: 80, Blood Pressure: 120]`.
+
+- **Column Vector:** The numbers are written vertically, stacked on top of each other. It has multiple rows and exactly 1 column.
+  - _Notation:_ `v = [ 1 ]`
+    `    [ 2 ]`
+    `    [ 3 ]`
+  - _Real-Life Example:_ Think of a single column in that same Excel spreadsheet. If you want to isolate the "Heart Rate" data for every patient in the ward to find the average, you extract that single vertical column.
+  - _ML Context:_ In higher-level linear algebra and machine learning algorithms, vectors are usually treated as **column vectors** by default unless stated otherwise.
+
+### The Transpose Operation (T)
+
+**The Concept:**
+Transposing is a simple but critical operation. It is the act of flipping a matrix or vector over its diagonal axis. For a standalone vector, it simply means turning a Row Vector into a Column Vector, or vice versa.
+
+- We denote this operation with a superscript "T". If your vector is named `v`, its transposed version is written as `v^T`.
+
+**Real-Life Example: Rotating a Spreadsheet**
+Imagine you print a spreadsheet where the rows are "Days of the Week" (Monday-Friday) and the columns are "Sales" and "Expenses". You realize it is formatted poorly for your presentation slide. You perform a Transpose operation: you pivot the table so the columns are now "Days of the Week" and the rows are "Sales" and "Expenses". The underlying data has not changed at all, but the shape has rotated.
+
+- **Before Transpose (Row Vector):** `v = [100, 200, 300]`
+- **After Transpose (v^T becomes a Column Vector):**
+  `v^T = [ 100 ]`
+  `      [ 200 ]`
+  `      [ 300 ]`
+
+**Why do we care in ML?**
+When you train a model, you multiply your data (Matrices) by your model's weights (Vectors). The rules of Linear Algebra dictate that the physical dimensions of these shapes must align perfectly to be multiplied together. You cannot mathematically multiply two row vectors directly. You frequently have to transpose (`T`) one of them into a column vector so the computer can "lock" them together and compute the prediction.
