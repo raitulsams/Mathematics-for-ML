@@ -258,3 +258,129 @@ Taking the drone example further, let's say it flies 3 meters East, 4 meters Nor
 Why do we care about the length of an arrow in Machine Learning?
 
 In ML, this exact formula is known as **Euclidean Distance**. It is heavily used in algorithms like K-Nearest Neighbors (KNN). If a model wants to know how "similar" two pieces of data are (e.g., determining if a new movie is similar to a movie you already like), it calculates the distance between their vectors. A shorter distance means the data points are highly similar; a longer distance means they are very different.
+
+## 2.5 Distance between vectors: Measuring Similarity
+
+**The Concept:**
+In the previous section, we measured the distance of a single vector from the origin (0,0). Now, we want to measure the straight-line distance between the endpoints of _two different vectors_.
+
+In Machine Learning, calculating the distance between two vectors is how algorithms measure **similarity**. If two data points (represented as vectors) are close together, the model assumes they share similar characteristics.
+
+We calculate this using the **Euclidean Distance** formula, which is just an expanded version of the Pythagorean theorem. Instead of calculating from zero, we calculate the _difference_ between their respective x, y, and z coordinates.
+
+### Distance in 2D Space
+
+If we have two vectors, $v_1 = [x_1, y_1]$ and $v_2 = [x_2, y_2]$, the distance ($d$) between them is calculated as:
+$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$
+
+**Solving Your Example:**
+Let's find the distance between your two vectors: $v_1 = [2, 5]$ and $v_2 = [6, 3]$.
+
+1. Subtract the x-values: $(6 - 2) = 4$
+2. Subtract the y-values: $(3 - 5) = -2$
+3. Square both results: $(4)^2 = 16$ and $(-2)^2 = 4$
+4. Add them together: $16 + 4 = 20$
+5. Take the square root: $\sqrt{20}$
+   _Result:_ The distance between the two vectors is exactly $\sqrt{20}$, which is approximately **4.47 units**.
+
+### Distance in 3D Space
+
+When a third dimension is added, the logic remains exactly the same. We just include the difference between the z-coordinates.
+For vectors $v_1 = [x_1, y_1, z_1]$ and $v_2 = [x_2, y_2, z_2]$, the formula is:
+$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}$
+
+**Real-Life ML Example: Recommender Systems**
+Imagine Netflix is trying to recommend a movie. They turn your movie preferences into a vector (based on action, comedy, and drama scores).
+
+- **Your Vector:** `[8, 2, 5]` (Loves action, dislikes comedy, neutral on drama)
+- **Movie A's Vector:** `[9, 1, 4]` (Die Hard)
+- **Movie B's Vector:** `[1, 9, 2]` (Step Brothers)
+
+The recommendation algorithm calculates the distance between your profile vector and the movie vectors. The distance to Movie A will be very small (meaning high similarity), while the distance to Movie B will be very large. Therefore, the system predicts you will like Movie A and recommends it to you.
+
+## 2.5.1 Distance in n-Dimensions: Scaling to Real ML Problems
+
+**The Concept:**
+We can easily visualize 2D (a flat piece of paper) and 3D (the physical room we are in). However, in Machine Learning, datasets rarely have just 2 or 3 features. They often have hundreds, thousands, or even millions of features. We call this an **n-dimensional space** (where "n" simply stands for any number of dimensions).
+
+The beautiful part of Linear Algebra is that the exact same Euclidean distance rule we used for 2D and 3D scales up perfectly to infinity. We simply continue subtracting, squaring, and adding the corresponding values for every single dimension, and then take the final square root.
+
+### The General Formula (Euclidean Distance in nD)
+
+If we have two vectors with $n$ features, $v_1 = [x_1, x_2, x_3, \dots, x_n]$ and $v_2 = [y_1, y_2, y_3, \dots, y_n]$, the distance $d$ is calculated as:
+
+$$d = \sqrt{(y_1 - x_1)^2 + (y_2 - x_2)^2 + (y_3 - x_3)^2 + \dots + (y_n - x_n)^2}$$
+
+In formal mathematical notation, using the summation symbol ($\Sigma$) to represent adding all these terms together, it is written as:
+
+$$d = \sqrt{\sum_{i=1}^{n} (y_i - x_i)^2}$$
+
+**Real-Life ML Example: Image Recognition**
+Imagine you are building an ML model to read handwritten numbers on bank checks. You feed the model a small, grayscale image that is 28 pixels wide by 28 pixels tall.
+
+- Total pixels: 28 \* 28 = 784 pixels.
+- To the computer, this image is not a square picture; it is converted into a single vector containing exactly 784 numbers (where each number represents how dark a specific pixel is).
+- `Image Vector = [p_1, p_2, p_3, \dots, p_{784}]`
+
+This means the vector exists in a **784-dimensional space**. We cannot visualize a 784-dimensional graph, but the computer can calculate it instantly.
+
+If the model wants to check if a newly uploaded image looks similar to an image of a "7" it has seen before, it calculates the Euclidean distance between the two vectors across all 784 dimensions. If the final distance calculation is a very small number, the model predicts with high probability that the new image is also a "7".
+
+## 2.6 Dot product of a vector: Multiplying Data
+
+**The Concept:**
+We know how to add and subtract vectors, but how do we multiply them? In Machine Learning, the most common way is the **Dot Product**.
+
+When you take the dot product of two vectors, the result is _not_ another vector. The result is a single number—a **Scalar**. Conceptually, a dot product measures how much two vectors "point in the same direction" or how much their paths overlap.
+
+**The Math (and the Transpose):**
+To calculate the dot product, you multiply the matching dimensions of each vector together and then add up all the results.
+If $a = [a_1, a_2]$ and $b = [b_1, b_2]$, then the dot product is:
+$a \cdot b = (a_1 \times b_1) + (a_2 \times b_2)$
+
+_Why the Transpose ($a^T \cdot b$)?_
+In linear algebra, vectors are treated as column vectors (vertical stacks) by default. The strict rules of matrix multiplication state you cannot directly multiply two column vectors together. You must lay the first one flat into a row vector (by transposing it). Therefore, the mathematically correct way to write the dot product of vector $a$ and vector $b$ is $a^T b$.
+
+---
+
+### Application 1: Projection & PCA (Principal Component Analysis)
+
+**The Concept of Projection:**
+Imagine Vector B is the ground, and Vector A is a pole sticking out of the ground at an angle. If you shine a flashlight straight down from directly above Vector A, the shadow it casts onto Vector B is the "projection".
+
+**Real-Life ML Example: PCA**
+If you have a dataset with 100 features (a 100-dimensional vector), it is highly complex and slow for a computer to process. Often, features are related (e.g., a house's "square footage" and "number of bedrooms" both represent size).
+
+**PCA** uses projections to cast the data onto a new, smaller set of axes, combining highly related features. It squashes 100 dimensions down to, say, 10 dimensions. Just like a 2D shadow retains the general shape of a 3D object, PCA reduces the size of the data while keeping the most important patterns intact.
+
+---
+
+### Application 2: Cosine Similarity
+
+**The Concept:**
+Earlier, we used Euclidean Distance to measure similarity by checking the distance between the _endpoints_ of two vectors. **Cosine Similarity**, however, ignores the length of the vectors and only looks at the _angle_ between them.
+
+**Real-Life ML Example: Text Analysis**
+Imagine you have two documents about Machine Learning. Document A is a 500-page textbook. Document B is a 2-page summary.
+
+- If we convert these documents into word-count vectors, Document A's vector will be massive, and Document B's will be tiny. Their Euclidean distance will be huge, making them look totally unrelated.
+- However, because they use the exact same vocabulary ratios, their vectors will point in the exact same direction. The angle between them is zero. Cosine Similarity correctly identifies that they are about the exact same topic, completely ignoring their size difference.
+
+---
+
+### Connecting to ML: Weights and Bias
+
+This is where the entire concept comes together. Remember the linear regression equation from Chapter 1: $y = wx + b$?
+
+In real ML models, $x$ is not a single number; it is a vector containing all the features of a data point (like a student's study hours, sleep, and attendance). And $w$ is not a single weight; it is a vector of weights corresponding to each feature.
+
+To make a prediction, the model takes the **Dot Product** of the weight vector and the input vector, and then adds the bias:
+**$y = w^T x + b$**
+
+**Step-by-Step Execution:**
+
+1. Multiply the student's "study hours" by the "study weight".
+2. Multiply the student's "sleep hours" by the "sleep weight".
+3. Add those results together into a single scalar number (This is the dot product).
+4. Add the baseline Bias ($b$).
+5. The final output ($y$) is the predicted mark.
