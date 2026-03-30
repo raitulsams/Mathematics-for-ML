@@ -214,3 +214,47 @@ Imagine you print a spreadsheet where the rows are "Days of the Week" (Monday-Fr
 
 **Why do we care in ML?**
 When you train a model, you multiply your data (Matrices) by your model's weights (Vectors). The rules of Linear Algebra dictate that the physical dimensions of these shapes must align perfectly to be multiplied together. You cannot mathematically multiply two row vectors directly. You frequently have to transpose (`T`) one of them into a column vector so the computer can "lock" them together and compute the prediction.
+
+## 2.4 Vectors distance from the origin: Calculating Magnitude
+
+**The Concept:**
+When we plot a vector starting from the origin (0,0), it forms an arrow pointing to a specific coordinate. The "distance from the origin" is simply the physical length of that arrow. In mathematics and physics, this length is called the **Magnitude**.
+
+To calculate this, we use the **Pythagorean theorem** ($a^2 + b^2 = c^2$). If we know the horizontal distance (x) and the vertical distance (y), we square them, add them together, and then take the square root to find the direct, straight-line distance (c).
+
+_Notation:_ The magnitude of a vector $v$ is typically written with double vertical bars $\|v\|$, though single bars $|v|$ are sometimes used.
+
+### Distance in 2D Space
+
+For a 2D vector $v = [x, y]$, the formula is:
+$\|v\| = \sqrt{x^2 + y^2}$
+
+**Real-Life Example:**
+Imagine you are flying a drone. You fly it 3 meters East (x-axis) and 4 meters North (y-axis). How far is the drone from you (the origin) in a straight line?
+
+- $v = [3, 4]$
+- $\|v\| = \sqrt{3^2 + 4^2}$
+- $\|v\| = \sqrt{9 + 16}$
+- $\|v\| = \sqrt{25} = 5$
+  The straight-line distance (magnitude) is 5 meters.
+
+### Distance in 3D Space
+
+When we add a third dimension (z-axis, representing depth or height), the formula elegantly scales up by simply adding the squared z-value under the square root.
+For a 3D vector $v = [x, y, z]$, the formula is:
+$\|v\| = \sqrt{x^2 + y^2 + z^2}$
+
+**Real-Life Example:**
+Taking the drone example further, let's say it flies 3 meters East, 4 meters North, and then straight up 12 meters into the air (z-axis).
+
+- $v = [3, 4, 12]$
+- $\|v\| = \sqrt{3^2 + 4^2 + 12^2}$
+- $\|v\| = \sqrt{9 + 16 + 144}$
+- $\|v\| = \sqrt{169} = 13$
+  The straight-line distance from your controller to the drone in the sky is 13 meters.
+
+### ML Context: Euclidean Distance
+
+Why do we care about the length of an arrow in Machine Learning?
+
+In ML, this exact formula is known as **Euclidean Distance**. It is heavily used in algorithms like K-Nearest Neighbors (KNN). If a model wants to know how "similar" two pieces of data are (e.g., determining if a new movie is similar to a movie you already like), it calculates the distance between their vectors. A shorter distance means the data points are highly similar; a longer distance means they are very different.
