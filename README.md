@@ -384,3 +384,100 @@ To make a prediction, the model takes the **Dot Product** of the weight vector a
 3. Add those results together into a single scalar number (This is the dot product).
 4. Add the baseline Bias ($b$).
 5. The final output ($y$) is the predicted mark.
+
+## 2.7 Vector Operation: Shifting and Combining Data
+
+**The Concept:**
+Just like regular numbers, vectors can be added, subtracted, and multiplied. However, because vectors represent points in space (or multiple features at once), these mathematical operations have geometric consequences. They physically move or stretch the data.
+
+---
+
+### Scalar Operations (Vector + Scalar)
+
+**The Concept:**
+A scalar is a single number. When you add, subtract, multiply, or divide a vector by a scalar, you apply that operation to _every single element_ inside the vector. Geometrically, this shifts or scales the entire vector.
+
+**Solving Your Example:**
+Let's say we have a vector `v = [5, 4]` and we subtract the scalar `2`.
+`v - 2 = [5 - 2, 4 - 2] = [3, 2]`
+Every feature was reduced by 2.
+
+**ML Context: Mean Centering**
+Why would we shift vectors like this in Machine Learning? One major reason is **Mean Centering**.
+Imagine you have a dataset of house prices and sizes, and all the numbers are huge (e.g., sizes around 2000 sq ft, prices around $300,000). Huge numbers make neural networks train very slowly and unstably.
+
+To fix this, we calculate the average (mean) of all the data. Let's say the average is represented by a scalar. We then subtract that average scalar from every single vector in our dataset. This shifts the entire cluster of data points perfectly to the center of the graph (the origin, 0,0). The relationships between the houses stay exactly the same, but the numbers are now small and centered, making the ML model train much faster and more efficiently.
+
+---
+
+### Vector Addition
+
+**The Concept:**
+To add two vectors together, you simply add their corresponding dimensions (the x-values together, and the y-values together).
+
+**Solving Example:**
+`v = [2, 3]` and `a = [3, 1]`
+`v + a = [2 + 3, 3 + 1] = [5, 4]`
+
+**Geometric Meaning: The Head-to-Tail Method**
+If you plot this on a graph, it represents a sequence of movements.
+
+1. You draw the first vector `v` starting from the origin (0,0). It points to `(2, 3)`. The tip of the arrow is the "head".
+2. Instead of starting the second vector `a` from the origin, you start its "tail" directly on the "head" of vector `v`. From that point, you move 3 units right and 1 unit up.
+3. The new resulting vector `[5, 4]` is the straight line drawn from the original starting point (0,0) to your final destination.
+
+_Real-Life Example:_ Imagine you are navigating a ship. Vector `v` is the direction the engine is pushing you. Vector `a` is the direction the wind is blowing. Vector addition tells you your actual, final path across the ocean.
+
+---
+
+### Vector Subtraction
+
+**The Concept:**
+Subtraction is simply adding a negative vector. The mathematical rule is: `v - a` is exactly the same as `v + (-a)`.
+
+**Solving Your Example:**
+`v = [8, 3]` and `a = [3, 1]`
+First, flip the sign of every element in `a` to get `-a`: `[-3, -1]`
+Now, add them: `[8 + (-3), 3 + (-1)] = [5, 2]`
+
+**Geometric Meaning: Flipping the Arrow**
+In a graph, making a vector negative (`-a`) perfectly reverses its direction. It flips 180 degrees. Once you have flipped vector `a` to point in the opposite direction, you simply use the exact same Head-to-Tail method described above to find the new resulting vector.
+
+_Real-Life Example:_ Vector subtraction is used to find the difference or distance between two states. If `v` is your target destination and `a` is your current location, `v - a` gives you the exact vector (direction and distance) you need to travel to reach your target.
+
+## 3.2 Matrix Skeleton View: The Anatomy of Data
+
+**The Concept:**
+To understand how data is fed into a Machine Learning model, it is helpful to look at the "skeleton" or structural hierarchy of the data. As we add dimensions, the complexity of the data structure grows.
+
+- **0-Dimensional - Scalar:** Only one single value. It has no shape.
+  - _Example:_ `5` (The price of a single apple).
+- **1-Dimensional - Vector:** A list of values. It represents a single row or a single column of data.
+  - _Example:_ `[5, 2, 1]` (The price, weight, and sweetness score of one specific apple).
+- **2-Dimensional - Matrix:** Tabular data (a grid). It is essentially a collection of vectors stacked together.
+  - _Example:_ A spreadsheet containing the profiles of 100 different apples.
+
+---
+
+### Understanding Matrix "Shape" (Dimensions)
+
+When working with matrices in ML (using libraries like NumPy or TensorFlow), the very first thing you need to know about your data is its **Shape**. The shape tells the computer exactly how memory should be allocated and what mathematical operations are legally possible.
+
+The shape of a matrix is always defined as **(Rows, Columns)**.
+
+- **Rows (Samples):** How many individual items, examples, or observations you have in your dataset.
+- **Columns (Features):** How many distinct variables, attributes, or measurements you have for each item.
+
+**Real-Life Example: Real Estate Dataset**
+Let's say you are building a model to predict house prices, and you have collected data on 100 different houses. For every single house, you measured 3 things:
+
+1. Square footage
+2. Number of bedrooms
+3. Age of the house
+
+- **Rows:** 100 (because you have 100 distinct houses).
+- **Columns:** 3 (because you collected 3 specific features for each house).
+- **The Shape:** We describe the shape of this dataset matrix as **(100, 3)** or **100 x 3**.
+
+**Why does Shape matter in ML?**
+If you recall the core equation `Y = XW + b` from the previous section, the dimensions of the Data Matrix (`X`) and the Weight Vector (`W`) must align perfectly. If your data matrix has a shape of (100, 3), your model absolutely must have exactly 3 weights (one for each feature). If you try to multiply a (100, 3) matrix by a vector containing 4 weights, the computer will throw an error and crash because the skeleton of the math does not fit together.
